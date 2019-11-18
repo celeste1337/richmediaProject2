@@ -44,6 +44,40 @@ const makeItem = (req, res) => {
   return itemPromise;
 };
 
+//update ze itemme
+const updateItem = (request, response) => {
+  const req = request;
+  const res = response;
+  return Item.ItemModel.findByOwnerAndID(
+    req.session.account._id,
+    req.body._id,
+    (err, doc) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occurred' });
+      }
+
+      const updatedDoc = doc[0];
+
+      updatedDoc.name = req.body.name;
+      updatedDoc.cost = req.body.cost;
+      updatedDoc.imageUrl = req.body.itemUrl;
+      updatedDoc.wears = req.body.wears;
+
+      const updateTaskPromise = updatedDoc.save();
+
+      updateTaskPromise.then(() => res.json({ redirect: '/maker' }));
+
+      updateTaskPromise.catch((err2) => {
+        console.log(err2);
+
+        return res.status(400).json({ error: 'An error occurred' });
+      });
+
+      return updateTaskPromise;
+    });
+};
+
 const getItems = (request, response) => {
   const req = request;
   const res = response;
@@ -62,3 +96,4 @@ const getItems = (request, response) => {
 module.exports.makerPage = makerPage;
 module.exports.getItems = getItems;
 module.exports.make = makeItem;
+module.exports.updateItem = updateItem;

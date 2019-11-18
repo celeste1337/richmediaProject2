@@ -77,6 +77,57 @@ const signup = (request, response) => {
   });
 };
 
+const passwordChange = (request, response) => {
+  const req = request;
+  const res = response;
+
+  req.body.oldPass = `${req.body.oldPass}`;
+  req.body.pass = `${req.body.pass}`;
+  req.body.pass2 = `${req.body.pass2}`;
+
+  if (!req.body.oldPass || !req.body.pass || !req.body.pass2) {
+    return res.status(400).json({ error: 'all fields required ya dweeb' });
+  }
+  if (req.body.pass !== req.body.pass2) {
+    return res.status(400).json({ error: 'passwords dont match!!! >:(' });
+  }
+
+  return Account.AccountModel.authenticate(
+    req.session.account.username,
+    req.body.oldPass,
+    (err1, account) => {
+      if (err1 || !account) {
+        return res.status(401).json({ error: 'wrong username or password stinky' });
+      }
+
+      return Account.AccountModel.generateHash(
+        req.body.pass,
+        (salt, hash) => Account.AccountModel.findByUsername(
+          req.session.account.username,
+          (err2, doc) => {
+            if (err2) {
+              console.log(err2);
+              return res.status(400).json({ error: 'an error occurred oopsie' });
+            }
+  
+            doc.salt = salt;
+            doc.password = hash;
+  
+            const savePromise = doc.save();
+  
+            savePromise.then(() => res.json({ redirect: '/maker' }));
+  
+            savePromise.catch((err3) => {
+              console.log(err3);
+              return res.status(400).json({ error: 'an error occurred oopsie' });
+            });
+  
+            return savePromise;
+          }));
+    }
+  );
+};
+
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -93,4 +144,5 @@ module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
+module.exports.passwordChange = passwordChange;
 module.exports.getToken = getToken;

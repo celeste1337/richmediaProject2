@@ -135,7 +135,7 @@ nav:nth-child(1) {
     background-color: #338acc;
 }
 
-#user, #pass, #pass2 {
+#user, #pass, #pass2, #oldPass {
     text-align: center;
     font-size: 1.1em;
     width: 180px;
@@ -259,4 +259,9 @@ h3.domoAge {
 
 .domo:last-child {
     margin-bottom:10px;
+}
+
+.item img{
+    max-width: 300px;
+    max-height: 300px;
 }

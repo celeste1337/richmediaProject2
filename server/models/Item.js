@@ -44,13 +44,22 @@ ItemSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   cost: doc.cost,
   imageUrl: doc.imageUrl,
-  wears: doc.wears
+  wears: doc.wears,
 });
 
 ItemSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
+  return ItemModel.find(search).select('name cost imageUrl wears').exec(callback);
+};
+
+ItemSchema.statics.findByOwnerAndID = (ownerId, _id, callback) => {
+  const search = {
+    owner: convertId(ownerId),
+    _id,
+  };
+
   return ItemModel.find(search).select('name cost imageUrl wears').exec(callback);
 };
 
