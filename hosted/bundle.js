@@ -84,7 +84,7 @@ var ItemList = function ItemList(props) {
                 'h3',
                 { className: 'itemCost' },
                 'Cost: ',
-                item.age
+                item.cost
             ),
             React.createElement(
                 'h3',

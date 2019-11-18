@@ -53,7 +53,7 @@ const ItemList = function (props) {
             
                 <img src={item.imageUrl} alt="item image" className="itemImage" />
                 <h3 className="itemName">Name: {item.name}</h3>
-                <h3 className="itemCost">Cost: {item.age}</h3>
+                <h3 className="itemCost">Cost: {item.cost}</h3>
                 <h3 className="itemWears">Wears: {item.wears}</h3>
             </div>
         );

@@ -42,14 +42,16 @@ const ItemSchema = new mongoose.Schema({
 
 ItemSchema.statics.toAPI = (doc) => ({
   name: doc.name,
-  age: doc.age,
+  cost: doc.cost,
+  imageUrl: doc.imageUrl,
+  wears: doc.wears
 });
 
 ItemSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
-  return ItemModel.find(search).select('name').exec(callback);
+  return ItemModel.find(search).select('name cost imageUrl wears').exec(callback);
 };
 
 ItemModel = mongoose.model('Item', ItemSchema);
