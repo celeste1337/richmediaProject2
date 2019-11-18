@@ -14,7 +14,7 @@ const makerPage = (req, res) => {
 
 const makeItem = (req, res) => {
   if (!req.body.name || !req.body.imageUrl) {
-    return res.status(400).json({ error: 'name and age are required' });
+    return res.status(400).json({ error: 'name and url are required' });
   }
 
   const itemData = {
@@ -60,4 +60,4 @@ const getItems = (request, response) => {
 
 module.exports.makerPage = makerPage;
 module.exports.getItems = getItems;
-module.exports.make = makeDomo;
+module.exports.make = makeItem;

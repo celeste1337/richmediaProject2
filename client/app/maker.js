@@ -1,82 +1,85 @@
-const handleDomo = (e) => {
+const handleItem = (e) => {
     e.preventDefault();
 
-    $('#domoMessage').animate({ width: 'hide' }, 350);
+    $('#itemMessage').animate({ width: 'hide' }, 350);
 
-    if ($('#domoName').val() == '' || $('#domoAge').val() == '') {
+    if ($('#itemName').val() == '' || $('#itemCost').val() == '') {
         handleError('all fields required');
         return false;
     }
 
-    sendAjax('POST', $('#domoForm').attr('action'), $('#domoForm').serialize(), function () {
-        loadDomosFromServer();
+    sendAjax('POST', $('#itemForm').attr('action'), $('#itemForm').serialize(), function () {
+        loadItemsFromServer();
     });
 
     return false;
 }
 
-const DomoForm = (props) => {
+const ItemForm = (props) => {
     return (
-        <form id="domoForm"
-            onSubmit={handleDomo}
-            name="domoForm"
+        <form id="itemForm"
+            onSubmit={handleItem}
+            name="itemForm"
             action="/maker"
             method="POST"
-            className="domoForm">
+            className="itemForm">
             <label htmlFor="name">Name: </label>
-            <input id="domoName" type="text" name="name" placholder="Domo Name" />
-            <label htmlFor="age">Age: </label>
-            <input id="domoAge" type="text" name="age" placeholder="Domo Age" />
+            <input id="itemName" type="text" name="name" placholder="Item Name" />
+            <label htmlFor="cost">Cost: </label>
+            <input id="itemCost" type="number" name="cost" placeholder="Item Cost" />
             <input type="hidden" name="_csrf" value={props.csrf} />
-            <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+            <input className="makeItemSubmit" type="submit" value="Make Item" />
         </form>
     );
 };
 
-const DomoList = function (props) {
-    if (props.domos.length === 0) {
+const ItemList = function (props) {
+    if (props.items.length === 0) {
         return (
-            <div className="domoList">
-                <h3 className="emptyDomo">No Domos yet</h3>
+            <div className="itemList">
+                <h3 className="emptyItem">No Items yet</h3>
             </div>
         )
     }
 
-    const domoNodes = props.domos.map(function (domo) {
+    //img src should be pulled frm DB
+    const itemNodes = props.items.map(function (item) {
         return (
-            <div key={domo._id} className="domo">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="domoName">Name: {domo.name}</h3>
-                <h3 className="domoAge">Age: {domo.age}</h3>
+            <div key={item._id} className="item">
+            
+                <img src={item.imageUrl} alt="item image" className="itemImage" />
+                <h3 className="itemName">Name: {item.name}</h3>
+                <h3 className="itemCost">Cost: {item.age}</h3>
+                <h3 className="itemWears">Cost: {item.wears}</h3>
             </div>
         );
     });
 
     return (
-        <div className="domoList">
-            {domoNodes}
+        <div className="itemList">
+            {itemNodes}
         </div>
     );
 };
 
-const loadDomosFromServer = () => {
-    sendAjax('GET', '/getDomos', null, (data) => {
+const loadItemsFromServer = () => {
+    sendAjax('GET', '/getItems', null, (data) => {
         ReactDOM.render(
-            <DomoList domos={data.domos} />, document.querySelector('#domos')
+            <ItemList items={data.items} />, document.querySelector('#items')
         );
     });
 };
 
 const setup = function(csrf) {
     ReactDOM.render(
-        <DomoForm csrf={csrf} />, document.querySelector('#makeDomo')
+        <ItemForm csrf={csrf} />, document.querySelector('#makeItem')
     );
 
     ReactDOM.render(
-        <DomoList domos={[]} /> ,document.querySelector('#domos')
+        <ItemList items={[]} /> ,document.querySelector('#items')
     );
 
-    loadDomosFromServer();
+    loadItemsFromServer();
 }
 
 const getToken = () => {
