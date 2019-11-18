@@ -110,10 +110,11 @@ const passwordChange = (request, response) => {
               return res.status(400).json({ error: 'an error occurred oopsie' });
             }
   
-            doc.salt = salt;
-            doc.password = hash;
+            let updatedDoc = doc;
+            updatedDoc.salt = salt;
+            updatedDoc.password = hash;
   
-            const savePromise = doc.save();
+            const savePromise = updatedDoc.save();
   
             savePromise.then(() => res.json({ redirect: '/maker' }));
   
