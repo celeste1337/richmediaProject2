@@ -13,14 +13,15 @@ const makerPage = (req, res) => {
 };
 
 const makeItem = (req, res) => {
-  if (!req.body.name || !req.body.imageUrl) {
-    return res.status(400).json({ error: 'name and url are required' });
+  //console.log(req.body);
+  if (!req.body.name || !req.body.cost || !req.body.itemUrl || !req.body.wears) {
+    return res.status(400).json({ error: 'name, cost, wears & imageURL are required' });
   }
 
   const itemData = {
     name: req.body.name,
     cost: req.body.cost,
-    imageUrl: req.body.imageUrl,
+    imageUrl: req.body.itemUrl,
     wears: req.body.wears,
     owner: req.session.account._id,
   };
@@ -48,9 +49,9 @@ const getItems = (request, response) => {
   const res = response;
 
   return Item.ItemModel.findByOwner(req.session.account._id, (err, docs) => {
-    if(err) {
+    if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'Something went wrong.'});
+      return res.status(400).json({ error: 'Something went wrong.' });
     }
 
     return res.json({ items: docs });

@@ -5,7 +5,7 @@ var handleItem = function handleItem(e) {
 
     $('#itemMessage').animate({ width: 'hide' }, 350);
 
-    if ($('#itemName').val() == '' || $('#itemCost').val() == '') {
+    if ($('#itemName').val() == '' || $('#itemCost').val() == '' || $('#itemUrl').val() == '' || $('#itemWears').val() == '') {
         handleError('all fields required');
         return false;
     }
@@ -38,6 +38,18 @@ var ItemForm = function ItemForm(props) {
             'Cost: '
         ),
         React.createElement('input', { id: 'itemCost', type: 'number', name: 'cost', placeholder: 'Item Cost' }),
+        React.createElement(
+            'label',
+            { htmlFor: 'itemUrl' },
+            'Image URL: '
+        ),
+        React.createElement('input', { id: 'itemUrl', type: 'text', name: 'itemUrl', placeholder: 'Item URL' }),
+        React.createElement(
+            'label',
+            { htmlFor: 'wears' },
+            'Wears: '
+        ),
+        React.createElement('input', { id: 'itemWears', type: 'number', name: 'wears', placeholder: 'Number of Wears' }),
         React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
         React.createElement('input', { className: 'makeItemSubmit', type: 'submit', value: 'Make Item' })
     );
@@ -77,7 +89,7 @@ var ItemList = function ItemList(props) {
             React.createElement(
                 'h3',
                 { className: 'itemWears' },
-                'Cost: ',
+                'Wears: ',
                 item.wears
             )
         );
@@ -90,7 +102,7 @@ var ItemList = function ItemList(props) {
     );
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
+var loadItemsFromServer = function loadItemsFromServer() {
     sendAjax('GET', '/getItems', null, function (data) {
         ReactDOM.render(React.createElement(ItemList, { items: data.items }), document.querySelector('#items'));
     });
@@ -99,7 +111,7 @@ var loadDomosFromServer = function loadDomosFromServer() {
 var setup = function setup(csrf) {
     ReactDOM.render(React.createElement(ItemForm, { csrf: csrf }), document.querySelector('#makeItem'));
 
-    ReactDOM.render(React.createElement(ItemList, { items: [] }), document.querySelector('#itemss'));
+    ReactDOM.render(React.createElement(ItemList, { items: [] }), document.querySelector('#items'));
 
     loadItemsFromServer();
 };

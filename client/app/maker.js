@@ -3,7 +3,7 @@ const handleItem = (e) => {
 
     $('#itemMessage').animate({ width: 'hide' }, 350);
 
-    if ($('#itemName').val() == '' || $('#itemCost').val() == '') {
+    if ($('#itemName').val() == '' || $('#itemCost').val() == '' || $('#itemUrl').val() == '' || $('#itemWears').val() == '') {
         handleError('all fields required');
         return false;
     }
@@ -27,6 +27,10 @@ const ItemForm = (props) => {
             <input id="itemName" type="text" name="name" placholder="Item Name" />
             <label htmlFor="cost">Cost: </label>
             <input id="itemCost" type="number" name="cost" placeholder="Item Cost" />
+            <label htmlFor="itemUrl">Image URL: </label>
+            <input id="itemUrl" type="text" name="itemUrl" placeholder="Item URL" />
+            <label htmlFor="wears">Wears: </label>
+            <input id="itemWears" type="number" name="wears" placeholder="Number of Wears" />
             <input type="hidden" name="_csrf" value={props.csrf} />
             <input className="makeItemSubmit" type="submit" value="Make Item" />
         </form>
@@ -50,7 +54,7 @@ const ItemList = function (props) {
                 <img src={item.imageUrl} alt="item image" className="itemImage" />
                 <h3 className="itemName">Name: {item.name}</h3>
                 <h3 className="itemCost">Cost: {item.age}</h3>
-                <h3 className="itemWears">Cost: {item.wears}</h3>
+                <h3 className="itemWears">Wears: {item.wears}</h3>
             </div>
         );
     });
