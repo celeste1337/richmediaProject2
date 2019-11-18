@@ -2,6 +2,7 @@ const handleItem = (e) => {
     e.preventDefault();
 
     $('#itemMessage').animate({ width: 'hide' }, 350);
+    //$("#itemMessage").show('slow');
 
     if ($('#itemName').val() == '' || $('#itemCost').val() == '' || $('#itemUrl').val() == '' || $('#itemWears').val() == '') {
         handleError('all fields required');
@@ -19,6 +20,7 @@ const handleItemUpdate = (e) => {
     e.preventDefault();
 
     $('#itemMessage').animate({ width: 'hide' }, 350);
+   //$("#itemMessage").show('slow');
 
     if ($('#itemName').val() == '' || $('#itemCost').val() == '' || $('#itemUrl').val() == '' || $('#itemWears').val() == '') {
         handleError('all fields required');
@@ -36,7 +38,8 @@ const handleItemUpdate = (e) => {
 const handlePasswordChange = (e) => {
     e.preventDefault();
 
-    $("#domoMessage").animate({ width: 'hide' }, 350);
+    $('#itemMessage').animate({ width: 'hide' }, 350);
+   // $("#itemMessage").show('slow');
 
     if ($("#oldPass").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
         handleError("all fields required ya dweeb");
@@ -68,7 +71,7 @@ const ItemForm = (props) => {
             <label htmlFor="wears">Wears: </label>
             <input id="itemWears" type="number" name="wears" placeholder="Number of Wears" />
             <input type="hidden" name="_csrf" value={props.csrf} />
-            <input className="makeItemSubmit" type="submit" value="Make Item" />
+            <input className="makeItemSubmit" type="submit" value="Add" />
         </form>
     );
 };
@@ -80,7 +83,7 @@ const PasswordChange = (props) => {
             action="/passwordChange"
             method="POST"
             className="mainForm">
-                
+
             <h3 id="passChangeTitle">Change Password</h3>
             <div id="passChangeFormInput">
                 <div id="oldPassContainer">
@@ -156,7 +159,8 @@ const Item = function (props) {
                 <input id="itemWears" type="number" name="wears" placeholder="Number of Wears" defaultValue={props.item.wears} />
                 <input type="hidden" name="_csrf" value={props.csrf} />
                 <input type="hidden" name="_id" value={props.item._id} />
-                <input className="makeItemSubmit" type="submit" value="Update Item" />
+                <input className="makeItemSubmit" type="submit" value="Update" />
+                
             </form>
         </div>
     );

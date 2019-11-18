@@ -63,6 +63,15 @@ ItemSchema.statics.findByOwnerAndID = (ownerId, _id, callback) => {
   return ItemModel.find(search).select('name cost imageUrl wears').exec(callback);
 };
 
+ItemSchema.statics.deleteItem = (ownerId, _id, callback) => {
+  const search = {
+    owner: convertId(ownerId),
+    _id,
+  };
+
+  return ItemModel.deleteOne(search).exec(callback);
+}
+
 ItemModel = mongoose.model('Item', ItemSchema);
 
 module.exports.ItemModel = ItemModel;

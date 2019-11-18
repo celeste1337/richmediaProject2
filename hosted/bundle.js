@@ -34,9 +34,12 @@ var handleItemUpdate = function handleItemUpdate(e) {
     return false;
 };
 
+//update ze passworde
 var handlePasswordChange = function handlePasswordChange(e) {
     e.preventDefault();
+
     $("#domoMessage").animate({ width: 'hide' }, 350);
+
     if ($("#oldPass").val() == '' || $("#pass").val() == '' || $("#pass2").val() == '') {
         handleError("all fields required ya dweeb");
         return false;
@@ -46,6 +49,7 @@ var handlePasswordChange = function handlePasswordChange(e) {
         return false;
     }
     sendAjax('POST', $("#passwordChangeForm").attr("action"), $("#passwordChangeForm").serialize(), redirect);
+
     return false;
 };
 
@@ -83,7 +87,7 @@ var ItemForm = function ItemForm(props) {
         ),
         React.createElement('input', { id: 'itemWears', type: 'number', name: 'wears', placeholder: 'Number of Wears' }),
         React.createElement('input', { type: 'hidden', name: '_csrf', value: props.csrf }),
-        React.createElement('input', { className: 'makeItemSubmit', type: 'submit', value: 'Make Item' })
+        React.createElement('input', { className: 'makeItemSubmit', type: 'submit', value: 'Add' })
     );
 };
 
@@ -94,8 +98,7 @@ var PasswordChange = function PasswordChange(props) {
             onSubmit: handlePasswordChange,
             action: '/passwordChange',
             method: 'POST',
-            className: 'mainForm'
-        },
+            className: 'mainForm' },
         React.createElement(
             'h3',
             { id: 'passChangeTitle' },

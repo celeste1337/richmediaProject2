@@ -78,6 +78,23 @@ const updateItem = (request, response) => {
     });
 };
 
+//KILL ITEM >:)
+const deleteItem = (request, response) => {
+  const req = request;
+  const res = response;
+
+  return Item.ItemModel.deleteItem(
+    req.session.account._id,
+    req.body._id, (err) => {
+      if(err) {
+        console.log(err);
+        return res.status(400).json({ error: 'Something went wrong ! '})
+      }
+
+      return res.status(200).json({redirect: '/getItems'})
+    });
+};
+
 const getItems = (request, response) => {
   const req = request;
   const res = response;
@@ -97,3 +114,4 @@ module.exports.makerPage = makerPage;
 module.exports.getItems = getItems;
 module.exports.make = makeItem;
 module.exports.updateItem = updateItem;
+module.exports.deleteItem = deleteItem;
